@@ -1,0 +1,96 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{polski}
+\usepackage[polish]{babel}
+
+\usepackage[normalem]{ulem}
+\usepackage{adjustbox}
+\usepackage{array,booktabs}
+\usepackage{amssymb}
+
+\makeatletter
+\def\UL@putbox{\ifx\UL@start\@empty \else % not inner
+  \vrule\@width\z@ \LA@penalty\@M
+  {\UL@skip\wd\UL@box \UL@leaders \kern-\UL@skip}%
+    \phantom{\box\UL@box}%
+  \fi}
+\makeatother
+
+\begin{document}
+\section{Projekt}
+Projekt z programowania obiektowego, symulacji agentowej
+\uline{AAAA AAAA AAAA AAAA AAAA AAAA AAAA}
+przy użyciu języka programowania
+\underline{\textbf{java}}.
+
+\subsection{Grupa projektowa}
+\begin{center}
+	\begin{tabular}{cccc}
+		Imię i Nazwisko & Rola & Numer indeksu & Termin labolatorii \\
+		\hline Łukasz Mędrek & lider & 263910 & Środa 11:15 \\
+		Jakub Kalecki & & 263962 & Środa 11:15 \\
+	\end{tabular}
+\end{center}
+
+\subsection{Cel projektu}
+Celem projektu jest zastosowanie technik projektowania obiektowego w  
+w celu utworzenia modelu wybranego wycinka rzeczywistości i obserwacji
+występujących w nim interakcji.
+
+Projekt powinien mieć możliwość wprowadzenia danych początkowych, jak 
+i zapisywania danych przeprowadzonej symulacji.
+
+\subsection{Proponowane tematy}
+\begin{adjustbox}{center}
+	\begin{tabular}[h]{
+			>{\centering\arraybackslash}c
+			p{0.45\textwidth}
+			p{0.45\textwidth}
+			>{\centering\arraybackslash}c
+		}
+			Symulacja & \centering{Opis} & \centering{Cel} & Wybór \\
+			% \hline Prosty ekosystem & {
+				% Ekosystem składa się z różnych drapieżników, roślinożerców
+				% i roślin, drapieżniki polują na roślinożerców, a roślinożercy
+				% wędrują po planszy w poszukiwaniu roślin.
+			% } & { 
+				% Obserwacja cech każdej z grup w poszukiwaniu zależności
+				% modyfikujących ich wielkość populacji.
+			% }&  \\
+			\hline \centering{Bitwa samolotowa} & { 
+				Samoloty dwóch lub więcej stron prowadzą ze sobą
+				bitwę w przestworzach, i mają za zadanie zestrzelić
+				wrogie sobie jednostki.
+			} & { 
+				Obserwacja cech każdej z stron konfliktu w poszukiwaniu
+				zależności modyfikujących ich szybkość eliminacji wrogich
+				samolotów jak i końcową ilość jednostek.
+			}&  \\
+			\hline \centering{Statki} & { 
+				Wersja gry w statki, w której każdy ze statków podwodnych może stwierdzić
+				czy wokół niego znajduje się obca jednostka za pomocą radaru z daną dokładnością,
+				wtedy rozpoczyna on ostrzał obszaru w którym wykrył wroga,
+				próbując go wyeliminować. Statki mogą się poruszać, ale nie mogą się
+				ze sobą zderzać.
+			} & { 
+				Obserwacja cech każdej z stron konfliktu w poszukiwaniu
+				zależności modyfikujących ich szybkość eliminacji wrogich
+				samolotów jak i końcową ilość jednostek.
+			}&  \\
+		\end{tabular}
+\end{adjustbox}
+
+Oba tematy można wykonać podobnie, obiekty samolotów czy statków składałyby się z kompozycji
+elementów definiujących ich zachowanie - obiekt silnika informowałby o możliwościach
+przemieszczania, pilot lub sonar pozwalałby na wyszukiwanie wrogich jednostek, obiekty
+torped/karabinu przechowywałyby program unieszkodliwiania adwersarzy.
+
+Wszystkie samoloty/łodzie podwodne rakiety/torpedy mogłyby dziedziczyć po klasie obiektu fizycznego
+odpowiedzialnej za przemieszczanie zachowując pozory fizyki.
+
+Utworzone obiekty powinny również implementować interfejs umożliwiający ich konwersję do
+określonego formatu danych i z powrotem, w celu łatwego zapisywania i odczytywania stanu utworzonego
+modelu.
+
+\end{document}
