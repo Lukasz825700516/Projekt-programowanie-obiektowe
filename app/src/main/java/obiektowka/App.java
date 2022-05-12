@@ -17,7 +17,7 @@ public class App {
 		final var pilot = new RandomPilot();
 		final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
 
-		for (var i = 0; i < 100000; i++) {
+		for (var i = 0; i < 500; i++) {
 			sim.agents.add(new Plane(engine, steeringMechanism, pilot, viewCone));
 		}
 

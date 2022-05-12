@@ -1,7 +1,7 @@
 package obiektowka;
 
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/ActionType.tex
  * enum ActionType {
  * 	None,
  * 	ThrustAngleChange,

@@ -1,7 +1,7 @@
 package obiektowka;
 
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/SpaceConstrain.tex
  * class SpaceConstrain {
 	+ final boolean wrapOnX
 	+ final boolean wrapOnY

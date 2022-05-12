@@ -1,7 +1,7 @@
 package obiektowka;
 
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/Action.tex
  * !include ActionType.java
  * abstract class Action {
  * 	+ final ActionType type;

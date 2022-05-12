@@ -3,7 +3,7 @@ package obiektowka;
 // Structure storing Plane movement data
 //
 /**
- * @startuml doc/Engine
+ * @startuml ../../../../../sprawozdanie/uml/Engine.tex
  * class Engine{
  * 	+ final double maxSpeed
  * 	+ final double maxAcceleration

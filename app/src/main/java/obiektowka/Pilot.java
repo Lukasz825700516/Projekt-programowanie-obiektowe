@@ -2,7 +2,7 @@ package obiektowka;
 
 // The AI of Plane
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/Pilot.tex
  * !include Action.java
  * interface Pilot {
  * 	+ void prepare(Plane, Simulation)

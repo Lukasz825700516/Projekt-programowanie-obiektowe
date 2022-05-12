@@ -1,7 +1,7 @@
 package obiektowka;
 
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/Vector2.tex
  * class Vector2 {
  * 	+ double x
  * 	+ double y

@@ -4,10 +4,54 @@
 \usepackage{polski}
 \usepackage[polish]{babel}
 
+%% polish fancyref
+\newcommand*{\fullref}[1]{\figurename~\ref{#1} na stronie~\pageref{#1}}
+
 \usepackage[normalem]{ulem}
 \usepackage{adjustbox}
 \usepackage{array,booktabs}
 \usepackage{amssymb}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{lscape}
+\usepackage{calc}
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\usepackage{rotating}
+
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[R]{Strona \thepage\ z \pageref{LastPage}}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
 
 \makeatletter
 \def\UL@putbox{\ifx\UL@start\@empty \else % not inner
@@ -18,9 +62,14 @@
 \makeatother
 
 \begin{document}
-\section{Projekt}
+
+\tableofcontents
+\newpage
+
+\section{Informacje}
+
 Projekt z programowania obiektowego, symulacji agentowej
-\uline{AAAA AAAA AAAA AAAA AAAA AAAA AAAA}
+\underline{\textbf{bitwy samolotowej}}
 przy użyciu języka programowania
 \underline{\textbf{java}}.
 
@@ -43,7 +92,7 @@ i zapisywania danych przeprowadzonej symulacji.
 
 \subsection{Proponowane tematy}
 \begin{adjustbox}{center}
-	\begin{tabular}[h]{
+	\begin{tabular}[p]{
 			>{\centering\arraybackslash}c
 			p{0.45\textwidth}
 			p{0.45\textwidth}
@@ -76,7 +125,7 @@ i zapisywania danych przeprowadzonej symulacji.
 			} & { 
 				Obserwacja cech każdej z stron konfliktu w poszukiwaniu
 				zależności modyfikujących ich szybkość eliminacji wrogich
-				samolotów jak i końcową ilość jednostek.
+				łodzi jak i końcową ilość jednostek.
 			}&  \\
 		\end{tabular}
 \end{adjustbox}
@@ -92,5 +141,57 @@ odpowiedzialnej za przemieszczanie zachowując pozory fizyki.
 Utworzone obiekty powinny również implementować interfejs umożliwiający ich konwersję do
 określonego formatu danych i z powrotem, w celu łatwego zapisywania i odczytywania stanu utworzonego
 modelu.
+
+\section{Projekt}
+\subsection{Opis projektu}
+
+Bitwa samolotowa jest symulacją mającą na celu sprawdzenie jak parametry samolotu wpływają
+na jego siłę bojową, oraz całej floty.
+
+\subsubsection{Agenci}
+
+Głównymi jednostkami w symulacji są samoloty których struktura przedstawiona
+jest na \fullref{pic:plane_class}, każdy z samolotów jest od siebie niezależny.
+
+	\begin{sidewaysfigure}[p]
+		\begin{adjustbox}{center}
+			\resizebox{\minof{\pdfpageheight}{\height}}{!}{\input{uml/Plane.latex}}
+		\end{adjustbox}
+		\caption[] {
+			Model klasy \lstinline{obiektowka.Plane} oraz klas bezpośrednio
+			z nią związanych.
+		}
+		\label{pic:plane_class}
+	\end{sidewaysfigure}
+
+Wszystkie samoloty są umieszczone w symulacji \fullref{pic:simulation_class}, która
+pozwala na ich wyszukiwanie, oraz łatwe uaktualnianie stanu.
+
+	\begin{sidewaysfigure}[p]
+		\begin{adjustbox}{center}
+			\resizebox{\minof{\pdfpageheight}{\height}}{!}{\input{uml/Simulation.latex}}
+		\end{adjustbox}
+		\caption[Klasa \lstinline{obiektowka.Simulation}] {
+			Model klasy \lstinline{obiektowka.Simulation} oraz klas bezpośrednio
+			z nią związanych.
+		}
+		\label{pic:simulation_class}
+	\end{sidewaysfigure}
+
+Każdy agent ma swój stan, oraz przydzielone niezmienne parametry. Stanem
+samolotów jest ich przyśpieszenie i pozycja w przestrzeni dwuwymiarowej, a reszta
+informacji o nim jest podana jako referencja współdzielona przez inne jednostki.
+
+Ta strategia ma na celu zminimalizować duplikację tych samych danych pomiędzy samolotami
+- jest wiele różnych modeli samolotów, ale większość z nich różni się tylko kombinacją
+użytych w nich części.
+
+\subsubsection{Przebieg symulacji}
+
+Symulacja odbywa się w czasie rzeczywistym, a każdy z symulowanych obiektów jest
+odpowiedzialny za aktualizację swoich zmiennych.
+Działania wykonywane przez samoloty są podejmowane przez pilotów \fullref{pic:full_pilot_interface}
+znających dane swojego samolotu, i dane pobrane z otoczenia za pomocą przekazanego im obiektu
+symulacji.
 
 \end{document}

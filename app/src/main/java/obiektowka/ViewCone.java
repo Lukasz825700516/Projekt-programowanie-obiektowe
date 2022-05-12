@@ -1,7 +1,7 @@
 package obiektowka;
 
 /**
- * @startuml
+ * @startuml ../../../../../sprawozdanie/uml/ViewCone.tex
  * class ViewCone {
 	+ final double maxViewDistance
 	+ final double maxAbsoluteViewConeAngle

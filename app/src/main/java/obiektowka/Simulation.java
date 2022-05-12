@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 
 /**
- * @startuml doc/Simulation.png
+ * @startuml ../../../../../sprawozdanie/uml/Simulation.tex
  * !include SpaceConstrain.java
+ * !include SimulationAgent.java
  * class Simulation {
  * 	+ final SimulationAgent[] agents
  * 	+ final SpaceConstrain spaceConstrain

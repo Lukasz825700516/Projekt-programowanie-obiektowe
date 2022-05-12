@@ -2,7 +2,7 @@ package obiektowka;
 
 // Agent of simulation
 /**
- * @startuml doc/Plane
+ * @startuml ../../../../../sprawozdanie/uml/Plane.tex
  * !include SimulationAgent.java
  *
  * !include Engine.java
@@ -19,10 +19,10 @@ package obiektowka;
  * }
  *
  *
- * Plane o-right- Engine
+ * Plane o-- Engine
  * Plane o-- SteeringMechanism
  * Plane o-- ViewCone
- * Plane o-left- Pilot
+ * Plane o-- Pilot
  *
  * @enduml
  * */

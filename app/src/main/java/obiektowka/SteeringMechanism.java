@@ -2,7 +2,7 @@ package obiektowka;
 
 // Structure with info how Plane can manover
 /**
- * @startuml doc/SteeringMechanism
+ * @startuml ../../../../../sprawozdanie/uml/SteeringMechanism.tex
  * class SteeringMechanism {
  * 	+ final double maxAbsoluteThrustAngle
  * 	+ final double maxAbsoluteThrustAngleChange
