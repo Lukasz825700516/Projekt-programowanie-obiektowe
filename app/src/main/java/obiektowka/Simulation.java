@@ -1,6 +1,7 @@
 package obiektowka;
 
 import java.util.ArrayList;
+import java.util.function.Consumer;
 
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  * class Simulation {
  * 	+ final SimulationAgent[] agents
  * 	+ final SpaceConstrain spaceConstrain
-	 --
+	--
 	+ Simulation(final SpaceConstrain) 
 	--
 	+ void simulate(final double)
@@ -19,17 +20,27 @@ import java.util.ArrayList;
  * Simulation *-up- SpaceConstrain
  * @enduml
  * */
+
 public class Simulation {
-	public final ArrayList<SimulationAgent> agents = new ArrayList<SimulationAgent>();
+	public final ArrayList<Plane> planes = new ArrayList<Plane>();
+	public final ArrayList<SimulationAgent> other = new ArrayList<SimulationAgent>();
+
 	public final SpaceConstrain spaceConstrain;
 
 	public void simulate(final double deltaTime) {
-		for (final var agent : agents) {
+		for (final var agent : planes) {
+			agent.simulate(deltaTime, this);
+		}
+		for (final var agent : other) {
 			agent.simulate(deltaTime, this);
 		}
 	}
 
 	public Simulation(final SpaceConstrain spaceConstrain) {
 		this.spaceConstrain = spaceConstrain;
+	}
+
+	public void forEachPlane(Consumer<Plane> consumer) {
+		this.planes.forEach(consumer);
 	}
 }

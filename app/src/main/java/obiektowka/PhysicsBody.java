@@ -12,9 +12,9 @@ package obiektowka;
  * @enduml
  * */
 public abstract class PhysicsBody implements SimulationAgent {
-	protected Vector2 position = new Vector2();
-	protected Vector2 velocity = new Vector2();
-	protected double mass = 100;
+	public Vector2 position = new Vector2();
+	public Vector2 velocity = new Vector2();
+	public double mass = 100;
 
 	@Override
 	public void simulate(final double deltaTime, final Simulation s) {

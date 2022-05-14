@@ -12,10 +12,10 @@ package obiektowka;
  * !include PhysicsBody.java
  *
  * class Plane extends PhysicsBody {
- * 	- final Engine engine
- * 	- final SteeringMechanism steeringMechanism
- * 	- final Pilot pilot
- * 	- final ViewCone viewCone
+ * 	+ final Engine engine
+ * 	+ final SteeringMechanism steeringMechanism
+ * 	+ final Pilot pilot
+ * 	+ final ViewCone viewCone
  * }
  *
  *
@@ -27,10 +27,10 @@ package obiektowka;
  * @enduml
  * */
 public class Plane extends PhysicsBody {
-	final Engine engine;
-	final SteeringMechanism steeringMechanism;
-	final Pilot pilot;
-	final ViewCone viewCone;
+	public final Engine engine;
+	public final SteeringMechanism steeringMechanism;
+	public final Pilot pilot;
+	public final ViewCone viewCone;
 
 
 	public Plane(final Engine engine, final SteeringMechanism steeringMechanism, final Pilot pilot, final ViewCone viewCone) {
@@ -42,14 +42,9 @@ public class Plane extends PhysicsBody {
 
 	@Override
 	public void simulate(final double deltaTime, final Simulation simulation) {
-		this.pilot.prepare(this, simulation);
+		final var action = this.pilot.takeAction(this, simulation);
+		// TODO: Do something for each action
 
-		var action = this.pilot.takeAction();
-		while (action.type != ActionType.None) {
-			// TODO: Do something for each action
-
-			action = this.pilot.takeAction();
-		}
 		super.simulate(deltaTime, simulation);
 	}
 }

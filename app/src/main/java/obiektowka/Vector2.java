@@ -13,8 +13,8 @@ package obiektowka;
  * @enduml
  * */
 public class Vector2 {
-	double x;
-	double y;
+	public double x;
+	public double y;
 
 	public double length() {
 		// TODO

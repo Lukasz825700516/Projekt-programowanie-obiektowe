@@ -9,28 +9,5 @@ public class App {
 	}
 
 	public static void main(String[] args) {
-		// Create new simulation without any space sontrains
-		final var sim = new Simulation(null);
-
-		final var engine = Engine.create(10, 1);
-		final var steeringMechanism = SteeringMechanism.create(10, Math.PI / 2 / 10);
-		final var pilot = new RandomPilot();
-		final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
-
-		for (var i = 0; i < 500; i++) {
-			sim.agents.add(new Plane(engine, steeringMechanism, pilot, viewCone));
-		}
-
-		var simulationStart = System.nanoTime();
-		while (true) {
-			final var simulationStop = System.nanoTime();
-			final double simulationDuration = simulationStop - simulationStart;
-			final var timeDelta = simulationDuration / 1000;
-
-			System.out.println("Simulation took " + timeDelta + "s");
-			sim.simulate(timeDelta);
-
-			simulationStart = System.nanoTime();
-		}
 	} 
 }

@@ -9,3 +9,4 @@
 
 rootProject.name = 'obiektowka'
 include('app')
+include('tui')

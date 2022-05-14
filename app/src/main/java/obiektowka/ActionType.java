@@ -7,6 +7,7 @@ package obiektowka;
  * 	ThrustAngleChange,
  * 	ThrustVelocityChange,
  * 	FireRocket,
+ * 	Shoot
  * }
  * @enduml
  * */
@@ -15,4 +16,5 @@ public enum ActionType {
 	ThrustAngleChange,
 	ThrustVelocityChange,
 	FireRocket,
+	Shoot,
 }

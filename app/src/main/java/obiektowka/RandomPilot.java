@@ -10,22 +10,39 @@ import java.util.Random;
 public class RandomPilot implements Pilot {
 	Random random = new Random();
 
-	Plane currentSelf;
-	Simulation currentSimulation;
-
 	@Override
-	public void prepare(Plane self, Simulation simulation) {
-		this.currentSelf = self;
-		this.currentSimulation = simulation;
-	}
-
-	@Override
-	public Action takeAction() {
+	public Action takeAction(final Plane self, final Simulation simulation) {
 		// TODO Auto-generated method stub
 		var c = this.random.nextInt() % 2;
+
+		final Plane target_plane[] = {null};
+		// TODO: Maybe instead of forEachPlane, reduce search range using some quadtree
+		simulation.forEachPlane((p) -> {
+			if (p != self) {
+				if (target_plane[0] == null) {
+					// TODO: select plan, if visible
+				} else {
+					// TODO: if better target than target_plane, select it
+				}
+			}
+		});
+
+		final var plane = target_plane[0];
+		if (plane != null) {
+			final var offset = Vector2.difference(self.position, plane.position);
+			final double absoluteAngle = 0; // angle between self.velocity and offset
+
+			final var absoluteAcceptableShootingAngle = 0.1;
+			if (absoluteAngle < absoluteAcceptableShootingAngle) {
+				return new ShootAction();
+			} else {
+				// return new ChangeThrustAngleAction(Math.clam);
+			}
+		}
+
 		switch(c) {
 			case 0: return new NoneAction();
-			case 1: return new ThrustAction(this.currentSelf.engine.maxAcceleration);
+			case 1: return new ThrustAction(self.engine.maxAcceleration);
 			default: return new NoneAction();
 		}
 	}
