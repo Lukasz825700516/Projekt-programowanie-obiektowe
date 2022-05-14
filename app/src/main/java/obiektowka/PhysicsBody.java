@@ -4,9 +4,9 @@ package obiektowka;
  * @startuml ../../../../../sprawozdanie/uml/PhysicsBody.tex
  * !include Vector2.java
  * abstract class PhysicsBody implements SimulationAgent {
- * 	~ Vector2 position
- * 	~ Vector2 velocity
- * 	~ double mass
+ * 	+ Vector2 position
+ * 	+ Vector2 velocity
+ * 	+ double mass
  * }
  * PhysicsBody *-left- Vector2
  * @enduml
