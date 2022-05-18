@@ -192,7 +192,7 @@ Symulacja odbywa się w czasie rzeczywistym, a każdy z symulowanych obiektów 
 odpowiedzialny za aktualizację swoich zmiennych.
 Działania wykonywane przez samoloty są podejmowane przez pilotów \fullref{pic:full_pilot_interface}
 znających dane swojego samolotu, i dane pobrane z otoczenia za pomocą przekazanego im obiektu
-symulacji.
+symulacji. Przykładowy stan obiektów podczas symulacji jest przedstawiony na \fullref{pic:object_diagram}
 
 \subsubsection{Struktura projektu}
 
@@ -200,4 +200,30 @@ Aby umożliwić łatwy rozwój projektu po jego ukończeniu, został on rozdzie
 symulacyjną i wizualizacyjną. \lstinline{app} odpowiada za symulację, i zawiera on tylko kod 
 za to odpowiedzialny. \lstinline{gui} odpowiada za wszelkie utworzone interfejsy wizualizacyjne.
 
+\subsubsection{Wyświetlanie}
+
+Wyświetlanie modelu powinno być od niego niezależne, dlatego w tym projekcie przedstawianie symulacji
+odbywać się będzie za pomocą oddzielnej funkcji display \fullref{pic:display_class}, która będzie umożliwiała rysowanie danego
+stanu symulacji za pomocą dowolnej implementacji. Funkcja ta miałaby tylko przyjmować model, pozycję
+"kamery" oznaczającej widzialny obszar, który miałby być przekształcony na wyjściowy obraz, oraz rozmiar
+widzialnej przestrzeni.
+	\begin{sidewaysfigure}[p]
+		\begin{adjustbox}{center}
+			\resizebox{\minof{\pdfpageheight}{\height}}{!}{\input{uml/Gui.latex}}
+		\end{adjustbox}
+		\caption[Interfejs \lstinline{gui.Display}] {
+			Interfejs \lstinline{gui.Display} określający cechy klas pozwalających na wyświetlanie symulacji
+		}
+		\label{pic:display_class}
+	\end{sidewaysfigure}
+	\begin{sidewaysfigure}[p]
+		\begin{adjustbox}{center}
+			\resizebox{\minof{\pdfpageheight}{\height}}{!}{\input{uml/object_diagram.latex}}
+		\end{adjustbox}
+		\caption[Diagram obiektów] {
+			Przykładowy stan obiektów dla symulacji dwóch samolotów w różnych
+			częściach symulacji, różniących się tylko pilotem.
+		}
+		\label{pic:object_diagram}
+	\end{sidewaysfigure}
 \end{document}
