@@ -5,6 +5,7 @@
 build
 
 app/bin
+tui/bin
 
 .settings
 .project
