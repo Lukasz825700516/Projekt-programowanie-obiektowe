@@ -3,6 +3,90 @@
  */
 package obiektowka;
 
+/**
+ * @startuml ../../../../../sprawozdanie/uml/object_diagram.tex
+ map engine_I {
+	maxSpeed => 100
+	maxAcceleration => 3
+ }
+ map steeringMechanism_I {
+	maxAbsoluteThrustAngle => 0.3
+	maxAbsoluteThrustAngleChange => 0.2
+ }
+ map viewCone_I {
+	maxViewDistance => 300
+	maxAbsoluteViewConeAngle => 2.5
+ }
+
+ object pilot_A 
+ object pilot_B 
+
+ map samolot_a.position {
+	 x => -100
+	 y => 1
+ }
+
+ map samolot_a.velocity {
+	 x => 1
+	 y => 0
+ }
+ map samolot_b.position {
+	 x => 100
+	 y => -1
+ }
+
+ map samolot_b.velocity {
+	 x => -1
+	 y => 0
+ }
+ 
+object samolot_a {
+	 position
+	 velocity
+	 mass = 50
+	 engine 
+	 steeringMechanism 
+	 viewCone 
+	 pilot 
+}
+samolot_a::position -> samolot_a.position
+samolot_a::velocity -> samolot_a.velocity
+samolot_a::pilot -d-> pilot_A
+
+samolot_a::engine -d-> engine_I
+samolot_a::steeringMechanism -d-> steeringMechanism_I
+samolot_a::viewCone -d-> viewCone_I
+
+
+object samolot_b {
+	 position
+	 velocity
+	 mass = 50
+	 engine 
+	 steeringMechanism 
+	 viewCone 
+	 pilot 
+}
+samolot_b::position -> samolot_b.position
+samolot_b::velocity -> samolot_b.velocity
+samolot_b::pilot -d-> pilot_B
+
+samolot_b::engine -d-> engine_I
+samolot_b::steeringMechanism -d-> steeringMechanism_I
+samolot_b::viewCone -d-> viewCone_I
+
+
+object symulacja {
+	agents
+	spaceConstrains = null
+}
+
+symulacja::agents -d-> samolot_a
+symulacja::agents -d-> samolot_b
+
+ * @enduml
+ * */
+
 public class App {
 	public String getGreeting() {
 		return "Hello World!";

@@ -7,6 +7,13 @@ import obiektowka.Simulation;
 import obiektowka.SteeringMechanism;
 import obiektowka.ViewCone;
 
+/**
+ * @startuml ../../../../../../sprawozdanie/uml/Gui.tex
+ * interface Display {
+ * 	+ void display(final Simulation, final Vector2, final Vector2)
+ * }
+ * @enduml
+ * */
 public class Main {
 	public static void display(final Simulation simulation, final int w, final int h, final int x, final int y) {
 		boolean screen[] = new boolean[w * h];
