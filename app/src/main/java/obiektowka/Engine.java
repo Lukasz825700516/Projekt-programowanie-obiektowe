@@ -26,8 +26,7 @@ public class Engine {
 	}
 
 	public Vector2 calculateVelocity(double thrustVelocity, double thrustAngle, PhysicsBody body) {
-		// TODO: calculate new PhysicsBody velocity based on
-		// its mass, and acceleration
+		Vector2 velocity = new Vector2();
 		return null;
 	}
 
