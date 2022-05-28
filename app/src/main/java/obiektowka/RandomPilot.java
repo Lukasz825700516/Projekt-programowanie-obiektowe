@@ -16,16 +16,27 @@ public class RandomPilot implements Pilot {
 		var c = this.random.nextInt() % 2;
 
 		final Plane target_plane[] = {null};
+		final double square_target_plane_angle[] = {Double.POSITIVE_INFINITY};
 		// TODO: Maybe instead of forEachPlane, reduce search range using some quadtree
 		simulation.forEachPlane((p) -> {
-			if (p != self) {
-				if (target_plane[0] == null) {
-					// TODO: select plan, if visible
-				} else {
-					// TODO: if better target than target_plane, select it
+		if (p != self) {
+			var offset = Vector2.difference(p.position, self.position);
+			var square_distance = offset.square_length();
+			if (!(square_distance < self.viewCone.maxViewDistance * self.viewCone.maxViewDistance)) return;
+			var view_direction = self.velocity;
+
+			var cos = Vector2.scalar_multiplication(offset.normalized(), view_direction.normalized());
+			var angle = Math.acos(cos);
+			var square_angle = angle * angle;
+			if (square_angle < self.viewCone.maxAbsoluteViewConeAngle * self.viewCone.maxAbsoluteViewConeAngle) {
+				if (target_plane[0] == null
+				|| square_angle < square_target_plane_angle[0]
+				) {
+					target_plane[0] = p;
+					square_target_plane_angle[0] = square_angle;
 				}
 			}
-		});
+		} });
 
 		final var plane = target_plane[0];
 		if (plane != null) {
