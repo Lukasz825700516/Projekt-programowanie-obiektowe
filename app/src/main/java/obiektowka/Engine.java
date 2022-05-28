@@ -25,11 +25,37 @@ public class Engine {
 		this.maxAcceleration = maxAcceleration;
 	}
 
+	/**
+	* 
+	* @param thrustVelocity scalar in range of 0 and maxAcceleration
+	* @param thrustAngle is relative to current velocity vector
+	* @param body
+	* @return
+	*/
 	public Vector2 calculateVelocity(double thrustVelocity, double thrustAngle, PhysicsBody body) {
-		Vector2 velocity = new Vector2();
-		return null;
+		var direction = body.velocity.normalized();
+		
+		direction.x = direction.x * Math.cos(thrustAngle) + direction.y * Math.sin(thrustAngle);
+		direction.y = direction.x * Math.sin(thrustAngle) + direction.y * Math.cos(thrustAngle);
+
+		var thrust = Vector2.multiply(direction, thrustVelocity);
+		var velocity = Vector2.add(body.velocity, thrust);
+		var square_speed = velocity.square_length();
+
+		if (square_speed > this.maxSpeed * this.maxSpeed) {
+			velocity = Vector2.multiply(velocity.normalized(), this.maxSpeed);
+		}
+
+		return velocity;
 	}
 
+	/**
+	* 
+	* @param maxSpeed scalar greater than 0
+	* @param maxAcceleration scalar greater than 0
+	* @return
+	* @throws IllegalArgumentException
+	*/
 	static public Engine create(double maxSpeed, double maxAcceleration) throws IllegalArgumentException {
 		if (maxSpeed < 0) throw new IllegalArgumentException();
 		if (maxAcceleration < 0) throw new IllegalArgumentException();
