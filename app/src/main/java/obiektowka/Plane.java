@@ -31,6 +31,7 @@ public class Plane extends PhysicsBody {
 	public final SteeringMechanism steeringMechanism;
 	public final Pilot pilot;
 	public final ViewCone viewCone;
+	private double angle = 0;
 
 
 	public Plane(final Engine engine, final SteeringMechanism steeringMechanism, final Pilot pilot, final ViewCone viewCone) {
@@ -44,6 +45,22 @@ public class Plane extends PhysicsBody {
 	public void simulate(final double deltaTime, final Simulation simulation) {
 		final var action = this.pilot.takeAction(this, simulation);
 		// TODO: Do something for each action
+		switch (action.type) {
+			case ThrustVelocityChange:
+				ThrustAction act = (ThrustAction)action;
+				var angle = Vector2.normal_angle(this.angle);
+				var thrust = Vector2.multiply(angle, act.value);
+				this.velocity = Vector2.add(this.velocity, thrust);
+				break;
+			case ThrustAngleChange:
+				break;
+			case Shoot:
+				break;
+			case FireRocket: 
+				break;
+			case None: 
+				break;
+		}
 
 		super.simulate(deltaTime, simulation);
 	}

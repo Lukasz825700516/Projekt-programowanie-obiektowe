@@ -19,6 +19,14 @@ public class Vector2 {
 	public double x;
 	public double y;
 
+	static public Vector2 normal_angle(double angle) {
+		var result = new Vector2();
+
+		result.x = Math.cos(angle);
+		result.y = Math.sin(angle);
+
+		return result;
+	}
 	public Vector2 normalized() {
 		return Vector2.multiply(this, 1/this.length());
 	}

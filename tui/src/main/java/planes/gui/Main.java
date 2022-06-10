@@ -20,7 +20,7 @@ public class Main {
 
 		simulation.forEachPlane((p) -> {
 			var javaSucksX = (int)Math.floor(p.position.x);
-			var javaSucksY = (int)Math.floor(p.position.x);
+			var javaSucksY = (int)Math.floor(p.position.y);
 
 			if (javaSucksX - x >= w) return;
 			if (javaSucksY - y >= h) return;

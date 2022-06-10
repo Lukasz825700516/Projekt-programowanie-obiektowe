@@ -13,7 +13,6 @@ public class RandomPilot implements Pilot {
 	@Override
 	public Action takeAction(final Plane self, final Simulation simulation) {
 		// TODO Auto-generated method stub
-		var c = this.random.nextInt() % 2;
 
 		final Plane target_plane[] = {null};
 		final double square_target_plane_angle[] = {Double.POSITIVE_INFINITY};
@@ -47,15 +46,17 @@ public class RandomPilot implements Pilot {
 			if (absoluteAngle < absoluteAcceptableShootingAngle) {
 				return new ShootAction();
 			} else {
-				// return new ChangeThrustAngleAction(Math.clam);
+				return new ChangeThrustAngleAction(Math.atan2(offset.y, offset.x));
+				// return new ChangeThrustAngleAction
 			}
 		}
-
-		switch(c) {
-			case 0: return new NoneAction();
-			case 1: return new ThrustAction(self.engine.maxAcceleration);
-			default: return new NoneAction();
-		}
+		return new ThrustAction(self.engine.maxAcceleration);
+		// var c = this.random.nextInt() % 2;
+		// switch(c) {
+			// case 0: return new NoneAction();
+			// case 1: return new ThrustAction(self.engine.maxAcceleration);
+			// default: return new NoneAction();
+		// }
 	}
 
 }
