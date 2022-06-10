@@ -46,14 +46,16 @@ public class Plane extends PhysicsBody {
 		final var action = this.pilot.takeAction(this, simulation);
 		// TODO: Do something for each action
 		switch (action.type) {
-			case ThrustVelocityChange:
+			case ThrustVelocityChange: {
 				ThrustAction act = (ThrustAction)action;
 				var angle = Vector2.normal_angle(this.angle);
-				var thrust = Vector2.multiply(angle, act.value);
+				var thrust = Vector2.multiply(angle, act.value * deltaTime);
 				this.velocity = Vector2.add(this.velocity, thrust);
-				break;
-			case ThrustAngleChange:
-				break;
+			} break;
+			case ThrustAngleChange: {
+				ChangeThrustAngleAction act = (ChangeThrustAngleAction)action;
+				this.angle += act.value * deltaTime;
+			} break;
 			case Shoot:
 				break;
 			case FireRocket: 

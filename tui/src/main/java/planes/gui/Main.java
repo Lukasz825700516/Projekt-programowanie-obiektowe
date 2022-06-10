@@ -36,6 +36,12 @@ public class Main {
 		}
 	}
 
+	public static void log(final Simulation simulation) {
+		simulation.forEachPlane((p) -> {
+			System.out.println("x: " + p.position.x + ", y: " + p.position.y);
+		});
+	}
+
 	public static void main(String[] args) {
 		// Create new simulation without any space sontrains
 		final var sim = new Simulation(null);
@@ -46,7 +52,10 @@ public class Main {
 		final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
 
 		for (var i = 0; i < 5; i++) {
-			sim.planes.add(new Plane(engine, steeringMechanism, pilot, viewCone));
+			var plane = new Plane(engine, steeringMechanism, pilot, viewCone);
+			plane.position.x = 3 * i;
+			plane.position.y = 3 * i;
+			sim.planes.add(plane);
 		}
 
 		var simulationStart = System.nanoTime();
@@ -55,18 +64,19 @@ public class Main {
 			final var simulationStop = System.nanoTime();
 
 			final double simulationDuration = simulationStop - simulationStart;
-			var timeDelta = simulationDuration / 100000000;
+			var timeDelta = simulationDuration / 10000000;
 
 			sim.simulate(timeDelta);
 
 			time += timeDelta;
 
 
-			final var renderInterval = 0.5;
+			final var renderInterval = 0.1;
 			if (time > renderInterval) {
 				time -= renderInterval;
 				System.out.println("Simulation took " + timeDelta * 100000000 + "ns");
 				display(sim, 80, 20, -40, -10);
+				log(sim);
 			}
 
 			simulationStart = System.nanoTime();
