@@ -25,7 +25,7 @@ public class Main {
 			if (javaSucksX - x >= w) return;
 			if (javaSucksY - y >= h) return;
 
-			screen[w * javaSucksY + javaSucksX] = true;
+			screen[w * (javaSucksY - y) + (javaSucksX - x)] = true;
 		});
 
 		for (int javaSucksY = 0; javaSucksY < h; javaSucksY++) {
