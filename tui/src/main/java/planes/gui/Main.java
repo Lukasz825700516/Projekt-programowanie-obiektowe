@@ -22,8 +22,8 @@ public class Main {
 			var javaSucksX = (int)Math.floor(p.position.x);
 			var javaSucksY = (int)Math.floor(p.position.y);
 
-			if (javaSucksX - x >= w) return;
-			if (javaSucksY - y >= h) return;
+			if (javaSucksX - x >= w || javaSucksX - x < 0) return;
+			if (javaSucksY - y >= h || javaSucksY - y < 0) return;
 
 			screen[w * (javaSucksY - y) + (javaSucksX - x)] = true;
 		});
