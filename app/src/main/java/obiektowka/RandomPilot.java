@@ -21,12 +21,18 @@ public class RandomPilot implements Pilot {
 		if (p != self) {
 			var offset = Vector2.difference(p.position, self.position);
 			var square_distance = offset.square_length();
-			if (!(square_distance < self.viewCone.maxViewDistance * self.viewCone.maxViewDistance)) return;
-			var view_direction = self.velocity;
+			if (square_distance > self.viewCone.maxViewDistance * self.viewCone.maxViewDistance) return;
+			var view_direction = Vector2.normal_angle(self.angle);
 
-			var cos = Vector2.scalar_multiplication(offset.normalized(), view_direction.normalized());
-			var angle = Math.acos(cos);
+			var angle = Math.atan2(offset.y, offset.x) - self.angle;
+
+
 			var square_angle = angle * angle;
+			if (target_plane[0] == null) {
+				target_plane[0] = p;
+				square_target_plane_angle[0] = square_angle;
+			}
+
 			if (square_angle < self.viewCone.maxAbsoluteViewConeAngle * self.viewCone.maxAbsoluteViewConeAngle) {
 				if (target_plane[0] == null
 				|| square_angle < square_target_plane_angle[0]
@@ -40,14 +46,15 @@ public class RandomPilot implements Pilot {
 		final var plane = target_plane[0];
 		if (plane != null) {
 			final var offset = Vector2.difference(self.position, plane.position);
-			final double absoluteAngle = 0; // angle between self.velocity and offset
+			final var angle = Math.atan2(offset.y, offset.x) - self.angle;
+			final double angleSquare = angle * angle; // angle between self.velocity and offset
 
 			final var absoluteAcceptableShootingAngle = 0.1;
-			if (absoluteAngle < absoluteAcceptableShootingAngle) {
-				return new ShootAction();
-			} else {
-				return new ChangeThrustAngleAction(Math.atan2(offset.y, offset.x));
-				// return new ChangeThrustAngleAction
+			if (self.shootCooldown <= 0) {
+				if (angleSquare < absoluteAcceptableShootingAngle)
+					return new ShootAction();
+				else 
+					return new ChangeThrustAngleAction(angle);
 			}
 		}
 		return new ThrustAction(self.engine.maxAcceleration);

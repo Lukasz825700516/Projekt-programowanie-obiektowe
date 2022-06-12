@@ -31,7 +31,10 @@ public class Plane extends PhysicsBody {
 	public final SteeringMechanism steeringMechanism;
 	public final Pilot pilot;
 	public final ViewCone viewCone;
-	private double angle = 0;
+
+	public double angle = 0;
+	public double shootCooldown = 0;
+	public final double shootDelay = 0.5;
 
 
 	public Plane(final Engine engine, final SteeringMechanism steeringMechanism, final Pilot pilot, final ViewCone viewCone) {
@@ -56,13 +59,16 @@ public class Plane extends PhysicsBody {
 				ChangeThrustAngleAction act = (ChangeThrustAngleAction)action;
 				this.angle += act.value * deltaTime;
 			} break;
-			case Shoot:
-				break;
+			case Shoot: {
+				this.shootCooldown += this.shootDelay;
+			} break;
 			case FireRocket: 
 				break;
 			case None: 
 				break;
 		}
+
+		this.shootCooldown -= deltaTime;
 
 		super.simulate(deltaTime, simulation);
 	}

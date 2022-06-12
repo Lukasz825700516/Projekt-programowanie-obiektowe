@@ -38,7 +38,7 @@ public class Main {
 
 	public static void log(final Simulation simulation) {
 		simulation.forEachPlane((p) -> {
-			System.out.println("x: " + p.position.x + ", y: " + p.position.y);
+			System.out.println("x: " + p.position.x + ", y: " + p.position.y + ", rt: " + p.angle);
 		});
 	}
 
