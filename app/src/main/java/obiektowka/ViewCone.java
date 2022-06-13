@@ -1,5 +1,8 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  * @startuml ../../../../../sprawozdanie/uml/ViewCone.tex
  * class ViewCone {
@@ -14,7 +17,7 @@ package obiektowka;
  * }
  * @enduml
  * */
-public class ViewCone {
+public class ViewCone extends Resource {
 	public final double maxViewDistance;
 	public final double maxAbsoluteViewConeAngle;
 
@@ -33,5 +36,13 @@ public class ViewCone {
 	public boolean isVisible(PhysicsBody self, PhysicsBody other) {
 		// TODO
 		return false;
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		super.write(writer);
+		writer.write("view_cone\n");
+		writer.write(this.maxViewDistance + "\n");
+		writer.write(this.maxAbsoluteViewConeAngle + "\n");
 	}
 }

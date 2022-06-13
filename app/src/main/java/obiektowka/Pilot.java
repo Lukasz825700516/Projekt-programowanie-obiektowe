@@ -11,6 +11,6 @@ import java.util.List;
  * }
  * @enduml
  * */
-public interface Pilot {
-	public Action takeAction(Plane self, Simulation simulation);
+public abstract class Pilot extends Resource {
+	public abstract Action takeAction(Plane self, Simulation simulation);
 }

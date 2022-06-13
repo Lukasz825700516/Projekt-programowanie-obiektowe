@@ -1,5 +1,8 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 // Structure storing Plane movement data
 //
 /**
@@ -16,7 +19,7 @@ package obiektowka;
  * }
  * @enduml
  * */
-public class Engine {
+public class Engine extends Resource {
 	public final double maxSpeed;
 	public final double maxAcceleration;
 
@@ -61,5 +64,13 @@ public class Engine {
 		if (maxAcceleration < 0) throw new IllegalArgumentException();
 
 		return new Engine(maxSpeed, maxAcceleration);
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		super.write(writer);
+		writer.write("engine\n");
+		writer.write(this.maxSpeed + "\n");
+		writer.write(this.maxAcceleration + "\n");
 	}
 }

@@ -1,5 +1,8 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 // Structure with info how Plane can manover
 /**
  * @startuml ../../../../../sprawozdanie/uml/SteeringMechanism.tex
@@ -13,7 +16,7 @@ package obiektowka;
  * }
  * @enduml
  * */
-public class SteeringMechanism {
+public class SteeringMechanism extends Resource {
 	// Max angle
 	public final double maxAbsoluteThrustAngle;
 
@@ -30,5 +33,13 @@ public class SteeringMechanism {
 		if (maxAbsoluteThrustAngleChange < 0) throw new IllegalArgumentException();
 
 		return new SteeringMechanism(maxAbsoluteThrustAngle, maxAbsoluteThrustAngleChange);
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		super.write(writer);
+		writer.write("steering_mechanism\n");
+		writer.write(this.maxAbsoluteThrustAngle + "\n");
+		writer.write(this.maxAbsoluteThrustAngleChange + "\n");
 	}
 }

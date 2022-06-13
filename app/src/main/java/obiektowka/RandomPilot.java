@@ -1,5 +1,7 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -7,7 +9,7 @@ import java.util.Random;
  * class RandomPilot implements Pilot {
  * }
  * */
-public class RandomPilot implements Pilot {
+public class RandomPilot extends Pilot {
 	Random random = new Random();
 
 	@Override
@@ -66,4 +68,10 @@ public class RandomPilot implements Pilot {
 		// }
 	}
 
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		super.write(writer);
+		writer.write("pilot\n");
+		writer.write("random_pilot\n");
+	}
 }

@@ -1,5 +1,8 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 // Agent of simulation
 /**
  * @startuml ../../../../../sprawozdanie/uml/Plane.tex
@@ -42,6 +45,8 @@ public class Plane extends PhysicsBody {
 		this.steeringMechanism = steeringMechanism;
 		this.pilot = pilot;
 		this.viewCone = viewCone;
+
+		this.velocity = Vector2.normal_angle(this.angle);
 	}
 
 	@Override
@@ -52,7 +57,7 @@ public class Plane extends PhysicsBody {
 			case ThrustVelocityChange: {
 				ThrustAction act = (ThrustAction)action;
 				var angle = Vector2.normal_angle(this.angle);
-				var thrust = Vector2.multiply(angle, act.value * deltaTime);
+				var thrust = Vector2.multiply(angle, -act.value * deltaTime);
 				this.velocity = Vector2.add(this.velocity, thrust);
 			} break;
 			case ThrustAngleChange: {
@@ -70,6 +75,22 @@ public class Plane extends PhysicsBody {
 
 		this.shootCooldown -= deltaTime;
 
+		var angle = Vector2.normal_angle(this.angle);
+		var thrust = Vector2.multiply(angle, -this.engine.maxAcceleration * deltaTime);
+		this.velocity = Vector2.add(this.velocity, thrust);
+
 		super.simulate(deltaTime, simulation);
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		super.write(writer);
+		writer.write(this.angle + "\n");
+		writer.write(this.shootCooldown + "\n");
+		writer.write(this.shootDelay + "\n");
+		writer.write(this.engine.id + "\n");
+		writer.write(this.steeringMechanism.id + "\n");
+		writer.write(this.pilot.id + "\n");
+		writer.write(this.viewCone.id + "\n");
 	}
 }

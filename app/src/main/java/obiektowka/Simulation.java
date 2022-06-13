@@ -1,5 +1,7 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
 
@@ -21,7 +23,7 @@ import java.util.function.Consumer;
  * @enduml
  * */
 
-public class Simulation {
+public class Simulation implements Writer {
 	public final ArrayList<Plane> planes = new ArrayList<Plane>();
 	public final ArrayList<SimulationAgent> other = new ArrayList<SimulationAgent>();
 
@@ -42,5 +44,13 @@ public class Simulation {
 
 	public void forEachPlane(Consumer<Plane> consumer) {
 		this.planes.forEach(consumer);
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		for (var p : this.planes) {
+			p.write(writer);
+			System.out.println("WROTE SOMETHING!");
+		}
 	}
 }

@@ -1,5 +1,8 @@
 package obiektowka;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+
 /**
  * @startuml ../../../../../sprawozdanie/uml/Vector2.tex
  * class Vector2 {
@@ -15,7 +18,7 @@ package obiektowka;
  * }
  * @enduml
  * */
-public class Vector2 {
+public class Vector2 implements Writer {
 	public double x;
 	public double y;
 
@@ -56,5 +59,11 @@ public class Vector2 {
 		result.x = other.x * a;
 		result.y = other.y * a;
 		return result;
+	}
+
+	@Override
+	public void write(BufferedWriter writer) throws IOException {
+		writer.write(this.x + "\n");
+		writer.write(this.y + "\n");
 	}
 }

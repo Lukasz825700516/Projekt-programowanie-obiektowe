@@ -1,5 +1,10 @@
 package planes.gui;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.util.Random;
+
 import obiektowka.Engine;
 import obiektowka.Plane;
 import obiektowka.RandomPilot;
@@ -47,19 +52,22 @@ public class Main {
 		final var sim = new Simulation(null);
 
 		final var engine = Engine.create(10, 1);
-		final var steeringMechanism = SteeringMechanism.create(10, Math.PI / 2 / 10);
+		final var steeringMechanism = SteeringMechanism.create(90, Math.PI / 2 / 10);
 		final var pilot = new RandomPilot();
 		final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
 
-		for (var i = 0; i < 5; i++) {
+		var rand = new Random();
+		for (var i = 0; i < 10; i++) {
 			var plane = new Plane(engine, steeringMechanism, pilot, viewCone);
-			plane.position.x = 3 * i;
-			plane.position.y = 3 * i;
+			plane.position.x = (rand.nextFloat() - 0.5) * 80;
+			plane.position.y = (rand.nextFloat() - 0.5) * 20;
 			sim.planes.add(plane);
 		}
 
 		var simulationStart = System.nanoTime();
 		double time = 0;
+		double save_delay = 10;
+		double save_cooldown = save_delay;
 		while (true) {
 			final var simulationStop = System.nanoTime();
 
@@ -71,12 +79,34 @@ public class Main {
 			time += timeDelta;
 
 
-			final var renderInterval = 0.1;
+			final var renderInterval = 0.25;
+
 			if (time > renderInterval) {
 				time -= renderInterval;
 				System.out.println("Simulation took " + timeDelta * 100000000 + "ns");
 				display(sim, 80, 20, -40, -10);
-				log(sim);
+				// log(sim);
+			}
+
+			save_cooldown -= timeDelta;
+			if (save_cooldown < 0) {
+				save_cooldown += save_delay;
+				var file = new File("save");
+				try {
+					var writer = new BufferedWriter(new FileWriter(file));
+
+					engine.write(writer);
+					steeringMechanism.write(writer);
+					pilot.write(writer);
+					viewCone.write(writer);
+					sim.write(writer);
+
+					writer.close();
+
+				} catch(Exception e) {
+					System.err.println(e);
+					return;
+				}
 			}
 
 			simulationStart = System.nanoTime();
