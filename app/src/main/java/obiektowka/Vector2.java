@@ -2,6 +2,7 @@ package obiektowka;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 /**
  * @startuml ../../../../../sprawozdanie/uml/Vector2.tex
@@ -65,5 +66,12 @@ public class Vector2 implements Writer {
 	public void write(BufferedWriter writer) throws IOException {
 		writer.write(this.x + "\n");
 		writer.write(this.y + "\n");
+	}
+
+	public static Vector2 load(Scanner scanner) {
+		var a = new Vector2();
+		a.x = scanner.nextDouble();
+		a.y = scanner.nextDouble();
+		return a;
 	}
 }

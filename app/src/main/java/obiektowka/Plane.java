@@ -2,6 +2,7 @@ package obiektowka;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.Scanner;
 
 // Agent of simulation
 /**
@@ -37,8 +38,7 @@ public class Plane extends PhysicsBody {
 
 	public double angle = 0;
 	public double shootCooldown = 0;
-	public final double shootDelay = 0.5;
-
+	public double shootDelay = 0.5;
 
 	public Plane(final Engine engine, final SteeringMechanism steeringMechanism, final Pilot pilot, final ViewCone viewCone) {
 		this.engine = engine;
@@ -92,5 +92,35 @@ public class Plane extends PhysicsBody {
 		writer.write(this.steeringMechanism.id + "\n");
 		writer.write(this.pilot.id + "\n");
 		writer.write(this.viewCone.id + "\n");
+	}
+
+	public static Plane load(Scanner scanner, Simulation sim) throws Exception {
+		var position = Vector2.load(scanner);
+		var velocity = Vector2.load(scanner);
+		var mass = scanner.nextDouble();
+
+		var angle = scanner.nextDouble();
+		var shootCooldown = scanner.nextDouble();
+		var shootDelay = scanner.nextDouble();
+
+		var engineId = scanner.nextInt();
+		var mechanismId = scanner.nextInt();
+		var pilotId = scanner.nextInt();
+		var coneId = scanner.nextInt();
+
+		var engine = sim.engines.get(engineId);
+		var mechanism = sim.mechanisms.get(mechanismId);
+		var pilot = sim.pilots.get(pilotId);
+		var cone = sim.viewCones.get(coneId);
+
+		var p = new Plane(engine, mechanism, pilot, cone);
+		p.position = position;
+		p.velocity = velocity;
+		p.mass = mass;
+		p.angle = angle;
+		p.shootDelay = shootDelay;
+		p.shootCooldown = shootCooldown;
+
+		return p;
 	}
 }
