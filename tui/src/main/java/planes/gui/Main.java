@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.Random;
+import java.util.Scanner;
 
 import obiektowka.Engine;
 import obiektowka.Plane;
@@ -49,26 +50,47 @@ public class Main {
 
 	public static void main(String[] args) {
 		// Create new simulation without any space sontrains
-		final var sim = new Simulation(null);
+		final Simulation sim;
 
-		final var engine = Engine.create(10, 1);
-		final var steeringMechanism = SteeringMechanism.create(90, Math.PI / 2 / 10);
-		final var pilot = new RandomPilot();
-		final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
 
-		var rand = new Random();
-		for (var i = 0; i < 10; i++) {
-			var plane = new Plane(engine, steeringMechanism, pilot, viewCone);
-			plane.position.x = (rand.nextFloat() - 0.5) * 80;
-			plane.position.y = (rand.nextFloat() - 0.5) * 20;
-			sim.planes.add(plane);
+
+		final var saveFile = new File("init");
+		if (saveFile.exists() && saveFile.canRead()) {
+			try {
+				final var s = new Scanner(saveFile);
+				sim = Simulation.load(s);
+			} catch (Exception e) {
+				System.err.println(e);
+				return;
+			}
+		} else {
+			sim = new Simulation(null);
+
+			final var engine = Engine.create(10, 1);
+			final var steeringMechanism = SteeringMechanism.create(30, Math.PI / 2 / 10);
+			final var pilot = new RandomPilot();
+			final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
+
+			sim.engines.add(engine);
+			sim.mechanisms.add(steeringMechanism);
+			sim.pilots.add(pilot);
+			sim.viewCones.add(viewCone);
+
+			var rand = new Random();
+			for (var i = 0; i < 30; i++) {
+				var plane = new Plane(engine, steeringMechanism, pilot, viewCone);
+				plane.position.x = (rand.nextFloat() - 0.5) * 80;
+				plane.position.y = (rand.nextFloat() - 0.5) * 20;
+				sim.planes.add(plane);
+			}
 		}
+
 
 		var simulationStart = System.nanoTime();
 		double time = 0;
 		double save_delay = 10;
 		double save_cooldown = save_delay;
-		while (true) {
+		while (!sim.done()) {
 			final var simulationStop = System.nanoTime();
 
 			final double simulationDuration = simulationStop - simulationStart;
@@ -95,10 +117,6 @@ public class Main {
 				try {
 					var writer = new BufferedWriter(new FileWriter(file));
 
-					engine.write(writer);
-					steeringMechanism.write(writer);
-					pilot.write(writer);
-					viewCone.write(writer);
 					sim.write(writer);
 
 					writer.close();

@@ -3,6 +3,7 @@ package obiektowka;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.function.Consumer;
 
@@ -35,6 +36,11 @@ public class Simulation implements Writer {
 
 	public final SpaceConstrain spaceConstrain;
 
+	public final ArrayList<Plane> planesToDelete = new ArrayList<Plane>();
+
+	public boolean done () {
+		return this.planes.size() <= 1;
+	}
 	public void simulate(final double deltaTime) {
 		for (final var agent : planes) {
 			agent.simulate(deltaTime, this);
@@ -42,6 +48,10 @@ public class Simulation implements Writer {
 		for (final var agent : other) {
 			agent.simulate(deltaTime, this);
 		}
+		for (final var plane : planesToDelete) {
+			this.planes.remove(plane);
+		}
+		planesToDelete.clear();;
 	}
 
 	public Simulation(final SpaceConstrain spaceConstrain) {
@@ -54,6 +64,18 @@ public class Simulation implements Writer {
 
 	@Override
 	public void write(BufferedWriter writer) throws IOException {
+		for (var e : this.engines) {
+			e.write(writer);
+		}
+		for (var e : this.pilots) {
+			e.write(writer);
+		}
+		for (var e : this.mechanisms) {
+			e.write(writer);
+		}
+		for (var e : this.viewCones) {
+			e.write(writer);
+		}
 		for (var p : this.planes) {
 			p.write(writer);
 			System.out.println("WROTE SOMETHING!");

@@ -2,6 +2,7 @@ package obiektowka;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 // Agent of simulation
@@ -39,6 +40,8 @@ public class Plane extends PhysicsBody {
 	public double angle = 0;
 	public double shootCooldown = 0;
 	public double shootDelay = 0.5;
+	public static final double size = 0.5;
+	public double integrity = 10;
 
 	public Plane(final Engine engine, final SteeringMechanism steeringMechanism, final Pilot pilot, final ViewCone viewCone) {
 		this.engine = engine;
@@ -66,6 +69,20 @@ public class Plane extends PhysicsBody {
 			} break;
 			case Shoot: {
 				this.shootCooldown += this.shootDelay;
+				var shotPlanes = new ArrayList<Plane>();
+				simulation.forEachPlane(p -> { if (p != this) {
+					var offset = Vector2.difference(p.position, this.position);
+					var angle = Math.atan2(offset.y, offset.x) - this.angle;
+
+					var width = Math.sin(angle) * offset.length();
+					if (width <= Plane.size && offset.length() < this.viewCone.maxViewDistance) shotPlanes.add(p);
+				} });
+				for (var p : shotPlanes) {
+					p.integrity -= 1;
+					if (p.integrity <= 0) {
+						simulation.planesToDelete.add(p);
+					}
+				}
 			} break;
 			case FireRocket: 
 				break;
