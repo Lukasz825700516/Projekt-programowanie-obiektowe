@@ -101,6 +101,7 @@ public class Plane extends PhysicsBody {
 
 	@Override
 	public void write(BufferedWriter writer) throws IOException {
+		writer.write("plane\n");
 		super.write(writer);
 		writer.write(this.angle + "\n");
 		writer.write(this.shootCooldown + "\n");

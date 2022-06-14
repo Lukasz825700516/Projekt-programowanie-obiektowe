@@ -57,11 +57,13 @@ public class Main {
 
 		final var saveFile = new File("init");
 		if (saveFile.exists() && saveFile.canRead()) {
+			final Scanner s;
 			try {
-				final var s = new Scanner(saveFile);
+				s = new Scanner(saveFile);
 				sim = Simulation.load(s);
+				System.out.println(sim + " " + sim.planes.size());
 			} catch (Exception e) {
-				System.err.println(e);
+				System.err.println("Failed to load init file :c\n" + e);
 				return;
 			}
 		} else {

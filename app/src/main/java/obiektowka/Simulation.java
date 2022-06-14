@@ -85,41 +85,43 @@ public class Simulation implements Writer {
 	public static Simulation load(Scanner scaner) throws Exception {
 		var sim = new Simulation(null);
 
-		var token = scaner.next();
-		if (token == "resource") {
-			int id = scaner.nextInt();
-			token = scaner.next();
+		while (scaner.hasNext()) {
+			var token = scaner.next().trim();
+			System.out.println("token: " + token);
+			if (token.equals("resource")) {
+				int id = scaner.nextInt();
+				token = scaner.next();
 
-			if (token == "engine") {
-				var a = scaner.nextDouble();
-				var b = scaner.nextDouble();
-				var e = Engine.create(a, b);
-				if (e == null) throw new Exception();
-				sim.engines.add(e);
-			}
-			if (token == "steering_mechanism") {
-				var a = scaner.nextDouble();
-				var b = scaner.nextDouble();
-				var e = SteeringMechanism.create(a, b);
-				if (e == null) throw new Exception();
-				sim.mechanisms.add(e);
-			}
-			if (token == "pilot") {
-				var t = scaner.next();
-				Pilot p = null;
-				if (t == "random_pilot") p = new RandomPilot();
-				if (p == null) throw new Exception();
-				sim.pilots.add(p);
-			}
-			if (token == "view_cone") {
-				var a = scaner.nextDouble();
-				var b = scaner.nextDouble();
-				var p = ViewCone.create(a, b);
-				if (p == null) throw new Exception();
-				sim.viewCones.add(p);
-			}
-		} else {
-			while (scaner.hasNext()) {
+				if (token.equals("engine")) {
+					var a = scaner.nextDouble();
+					var b = scaner.nextDouble();
+					var e = Engine.create(a, b);
+					if (e == null) throw new Exception();
+					sim.engines.add(e);
+				}
+				if (token.equals("steering_mechanism")) {
+					var a = scaner.nextDouble();
+					var b = scaner.nextDouble();
+					var e = SteeringMechanism.create(a, b);
+					if (e == null) throw new Exception();
+					sim.mechanisms.add(e);
+				}
+				if (token.equals("pilot")) {
+					var t = scaner.next();
+					Pilot p = null;
+					if (t.equals("random_pilot")) p = new RandomPilot();
+					if (p == null) throw new Exception();
+					sim.pilots.add(p);
+				}
+				if (token.equals("view_cone")) {
+					var a = scaner.nextDouble();
+					var b = scaner.nextDouble();
+					var p = ViewCone.create(a, b);
+					if (p == null) throw new Exception();
+					sim.viewCones.add(p);
+				}
+			} else if (token.equals("plane")) {
+				System.out.println("loading plane");
 				var p = Plane.load(scaner, sim);
 				sim.planes.add(p);
 			}
