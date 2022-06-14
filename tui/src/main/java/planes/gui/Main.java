@@ -3,6 +3,7 @@ package planes.gui;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -67,9 +68,9 @@ public class Main {
 			sim = new Simulation(null);
 
 			final var engine = Engine.create(10, 1);
-			final var steeringMechanism = SteeringMechanism.create(30, Math.PI / 2 / 10);
+			final var steeringMechanism = SteeringMechanism.create(45 * Math.PI / 180, 90 * Math.PI / 180);
 			final var pilot = new RandomPilot();
-			final var viewCone = ViewCone.create(100, Math.PI / 2 / 10);
+			final var viewCone = ViewCone.create(20, 30 * Math.PI / 180);
 
 			sim.engines.add(engine);
 			sim.mechanisms.add(steeringMechanism);
@@ -77,7 +78,7 @@ public class Main {
 			sim.viewCones.add(viewCone);
 
 			var rand = new Random();
-			for (var i = 0; i < 30; i++) {
+			for (var i = 0; i < 300; i++) {
 				var plane = new Plane(engine, steeringMechanism, pilot, viewCone);
 				plane.position.x = (rand.nextFloat() - 0.5) * 80;
 				plane.position.y = (rand.nextFloat() - 0.5) * 20;
@@ -86,26 +87,28 @@ public class Main {
 		}
 
 
-		var simulationStart = System.nanoTime();
 		double time = 0;
 		double save_delay = 10;
 		double save_cooldown = save_delay;
+		double simulationDuration = 0;
 		while (!sim.done()) {
-			final var simulationStop = System.nanoTime();
+			final var simulationStart = System.nanoTime();
 
-			final double simulationDuration = simulationStop - simulationStart;
-			var timeDelta = simulationDuration / 10000000;
+			final double scale = 1000000000;
+			var timeDelta = simulationDuration / scale;
 
 			sim.simulate(timeDelta);
 
 			time += timeDelta;
+
+			// System.out.println(time);
 
 
 			final var renderInterval = 0.25;
 
 			if (time > renderInterval) {
 				time -= renderInterval;
-				System.out.println("Simulation took " + timeDelta * 100000000 + "ns");
+				System.out.println("Simulation took " + timeDelta * scale + "ns planes left: " + sim.planes.size());
 				display(sim, 80, 20, -40, -10);
 				// log(sim);
 			}
@@ -113,7 +116,8 @@ public class Main {
 			save_cooldown -= timeDelta;
 			if (save_cooldown < 0) {
 				save_cooldown += save_delay;
-				var file = new File("save");
+				var cal = Calendar.getInstance();
+				var file = new File("save-" + cal.getTimeInMillis());
 				try {
 					var writer = new BufferedWriter(new FileWriter(file));
 
@@ -127,7 +131,20 @@ public class Main {
 				}
 			}
 
-			simulationStart = System.nanoTime();
+			var simulationStop = System.nanoTime();
+			simulationDuration = simulationStop - simulationStart;
 		}
+				var file = new File("save-end");
+				try {
+					var writer = new BufferedWriter(new FileWriter(file));
+
+					sim.write(writer);
+
+					writer.close();
+
+				} catch(Exception e) {
+					System.err.println(e);
+					return;
+				}
 	}
 }
