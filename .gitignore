@@ -6,7 +6,9 @@ build
 
 app/bin
 tui/bin
-tui/save
+tui/save-*
+tui/init
+
 
 .settings
 .project
